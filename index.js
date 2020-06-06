@@ -12,45 +12,23 @@ app.use(bodyParser.urlencoded({ extended: false }))
 // parse application/json
 app.use(bodyParser.json())
 
-const contacts = [{
-    name: 'Bob',
-    lastname: 'Smith'
-},{
-    name: 'James',
-    lastname: 'David'
-},{
-    name: 'Robert',
-    lastname: 'Miller'
-},{
-    name: 'David',
-    lastname: 'Martin'
-}];   
 
 
- 
 app.get('/', (req, res) =>{
     res.send('Hello World!')
-    jsonexport(contacts, function(err, csv){
-        if (err) return console.error(err);
-        console.log(csv);
-        fs.writeFile("C:/Users/Ribbon/Downloads/code/jsonexport-app/contacts.csv", csv, function(err) {
-            if(err) {}
-        });
-        return "contacts.csv";
-    });
 })
 
  
 app.post('/exportOrders', (req, res) =>{
-    const jsonData = req.body.Orders;
+    const order = req.body.Orders;
+    const exportType = req.body.exportType
     const currentTimeStamp = new Date().toISOString().replace(/[\/\\:]/g, "_");
-    const fileName = `/documents/orderResponse${currentTimeStamp}.csv`
+    const fileName = `/documents/orderResponse${currentTimeStamp}.${exportType}`
     const filePath = path.join(__dirname + fileName);
-    console.log(filePath ,"Req");
-    jsonexport(jsonData, function(err, csv){
+    jsonexport(order, function(err, exportType){
         if (err) return console.error(err);
-        console.log(csv);
-        fs.writeFile(filePath, csv, function(err) {
+        console.log(exportType);
+        fs.writeFile(filePath, exportType, function(err) {
             if(err) {
                 res.send(err);
             }
