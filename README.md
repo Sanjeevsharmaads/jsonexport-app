@@ -12,8 +12,6 @@
 ### Required packages
 * [Json-export] - 
 
-And of course Dillinger itself is open source with a [public repository][dill]
- on GitHub.
 
 ### Request Payload
 ```
